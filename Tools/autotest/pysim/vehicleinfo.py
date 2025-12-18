@@ -178,6 +178,11 @@ class VehicleInfo(object):
                                             "default_params/gazebo-iris.parm"],
                 "external": True,
             },
+            "jsbsim": {
+                "waf_target": "bin/arducopter-heli",
+                "default_params_filename": "default_params/copter-heli.parm",
+                "external": True,
+            },
             "airsim-copter": {
                 "waf_target": "bin/arducopter",
                 "default_params_filename": ["default_params/copter.parm",
@@ -570,6 +575,5 @@ class VehicleInfo(object):
             ret["waf_target"] = opts.build_target
 
         return ret
-
 
 

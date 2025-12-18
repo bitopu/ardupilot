@@ -109,18 +109,42 @@ bool JSBSim::create_templates(void)
 "\n"
 "  <run start=\"0\" end=\"10000000\" dt=\"%.6f\">\n"
 "    <property value=\"0\"> simulation/notify-time-trigger </property>\n"
+"    <property value=\"1\"> simulation/test-variant </property>\n"
+"    <property value=\"0\"> simulation/notify-time-trigger </property>\n"
+"    <property value=\"240.0\"> simulation/notify-time-trigger-ar </property>\n"
+"    <property value=\"3.14159\"> ap/afcs/psi-trim-rad </property>\n"
+"    <property value=\"0.0\"> propulsion/tank[0]/contents-lbs </property>\n"
+"    <property value=\"0.0\"> propulsion/tank[1]/contents-lbs </property>\n"
+
+"    <!-- vehicle setup: ensure defaults -->\n"
+"    <property value=\"1.0\"> aero/setup/downwash-enable </property>\n"
+"    <property value=\"0.05\"> aero/setup/Nr_limiter </property>\n"
+
+"    <!-- rotor control: disable features which are only useful for interactive use -->\n"
+"    <property value=\"0.0\"> fcs/adj/collective-profile </property>\n"
+"    <property value=\"1.0\"> fcs/adj/center-sensitivity </property>\n"
 "\n"
 "    <event name=\"start engine\">\n"
 "      <condition> simulation/sim-time-sec le 0.01 </condition>\n"
 "      <set name=\"propulsion/engine[0]/set-running\" value=\"1\"/>\n"
+"      <set name=\"propulsion/engine[1]/set-running\" value=\"1\"/>\n"
 "      <notify/>\n"
 "    </event>\n"
 "\n"
+
 "    <event name=\"Trim\">\n"
 "      <condition>simulation/sim-time-sec ge 0.01</condition>\n"
 "      <set name=\"simulation/do_simple_trim\" value=\"2\"/>\n"
 "      <notify/>\n"
 "    </event>\n"
+"\n"
+"    <event name=\"Engage RPM governor\">\n"
+"      <condition> simulation/sim-time-sec ge 0.02 </condition>\n"
+"      <set name=\"fcs/collective-cmd-norm\" value=\"0\"/>\n"
+"      <set name=\"fcs/rpm-governor-active-norm\" value=\"1.0\"/>\n"
+"      <notify/>\n"
+"    </event>\n"
+"\n"
 "  </run>\n"
 "\n"
 "</runscript>\n"
@@ -332,7 +356,7 @@ bool JSBSim::open_fdm_socket(void)
     sock_fgfdm.reuseaddress();
     opened_fdm_socket = true;
     return true;
-}
+}  
 
 
 /*
@@ -365,7 +389,7 @@ void JSBSim::send_servos(const struct sitl_input &input)
              "set fcs/aileron-cmd-norm %f\n"
              "set fcs/elevator-cmd-norm %f\n"
              "set fcs/rudder-cmd-norm %f\n"
-             "set fcs/throttle-cmd-norm %f\n"
+             "set fcs/collective-cmd-norm %f\n"
              "set atmosphere/psiw-rad %f\n"
              "set atmosphere/wind-mag-fps %f\n"
              "set atmosphere/turbulence/milspec/windspeed_at_20ft_AGL-fps %f\n"

@@ -1,2 +1,9 @@
 <?xml version="1.0"?>
-<output name="localhost" type="FLIGHTGEAR" port="%(FGOUTPORT)s" protocol="udp" rate="1000"/>
+<outputlist>
+  <output name="localhost" type="FLIGHTGEAR"
+          port="%(FGOUTPORT)s" protocol="udp" rate="1000"/>
+  <output name="collective_socket" type="SOCKET" port="5130" rate="20">
+    <property>propulsion/engine/collective-ctrl-rad</property>
+    <property>fcs/collective-cmd-norm</property>
+  </output>
+</outputlist>
