@@ -376,10 +376,10 @@ void JSBSim::send_servos(const struct sitl_input &input)
     float throttle = filtered_servo_range(input, 2);
     float rudder = filtered_servo_angle(input, 3);
     if (MANUAL_FLIGHT){
-        aileron  = filtered_servo_angle(input, 12);
-        elevator = filtered_servo_angle(input, 13);
-        throttle = filtered_servo_range(input, 14);
-        rudder = filtered_servo_angle(input, 15);
+        aileron  = 0.22 //filtered_servo_angle(input, 12);
+        elevator = -0.18 //filtered_servo_angle(input, 13);
+        throttle = 0.615 //filtered_servo_range(input, 14);
+        rudder = 0.39 //filtered_servo_angle(input, 15);
     }
 
     if (frame == FRAME_ELEVON) {
@@ -408,7 +408,7 @@ void JSBSim::send_servos(const struct sitl_input &input)
              "set atmosphere/turbulence/milspec/windspeed_at_20ft_AGL-fps %f\n"
              "set atmosphere/turbulence/milspec/severity %f\n"
              "iterate 1\n",
-             0.22, -0.18, 0.39, 0.615,
+             aileron, elevator, rudder, throttle,
              radians(input.wind.direction),
              wind_speed_fps,
              wind_speed_fps/3,
