@@ -367,8 +367,8 @@ void JSBSim::send_servos(const struct sitl_input &input)
     char *buf = nullptr;
     float aileron  = 0.0; //filtered_servo_angle(input, 0);
     float elevator = 0.0; //filtered_servo_angle(input, 1);
-    float throttle = 0.0; //filtered_servo_range(input, 2);
-    float rudder   = 0.0; //filtered_servo_angle(input, 3);
+    float throttle = filtered_servo_range(input, 15);
+    float rudder   = filtered_servo_range(input, 16);
     if (frame == FRAME_ELEVON) {
         // fake an elevon plane
         float ch1 = aileron;

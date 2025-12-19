@@ -1217,5 +1217,15 @@
     </axis>
 
   </aerodynamics>
-
+  <!-- CSV logger for key state variables -->
+  <output name="aircraft/ah1s/Debug/Stick-Cmd.csv" type="CSV" file="ah1s_log.csv" rate="2">
+    <property> fcs/collective-cmd-norm </property>
+    <property> fcs/elevator-cmd-norm </property>
+    <property> fcs/aileron-cmd-norm </property>
+    <property> fcs/elevator-cmd-norm </property>
+    <property> propulsion/engine/collective-ctrl-rad </property>
+    <property> propulsion/engine/longitudinal-ctrl-rad </property>
+    <property> propulsion/engine/lateral-ctrl-rad </property>
+    <property> propulsion/engine[1]/antitorque-ctrl-rad </property>
+  </output>
 </fdm_config>
