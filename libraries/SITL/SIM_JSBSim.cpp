@@ -15,7 +15,7 @@
 /*
   simulator connector for JSBSim
 */
-
+#define MANUAL_FLIGHT 0
 #include "SIM_config.h"
 
 #if AP_SIM_JSBSIM_ENABLED
@@ -371,10 +371,17 @@ bool JSBSim::open_fdm_socket(void)
 void JSBSim::send_servos(const struct sitl_input &input)
 {
     char *buf = nullptr;
-    float aileron  = filtered_servo_angle(input, 12);
-    float elevator = filtered_servo_angle(input, 13);
-    float throttle = filtered_servo_range(input, 14);
-    float rudder = filtered_servo_angle(input, 15);
+    float aileron  = filtered_servo_angle(input, 0);
+    float elevator = filtered_servo_angle(input, 1)
+    float throttle = filtered_servo_range(input, 2);
+    float rudder = filtered_servo_angle(input, 3);
+    if (MANUAL_FLIGHT){
+        aileron  = filtered_servo_angle(input, 12);
+        elevator = filtered_servo_angle(input, 13);
+        throttle = filtered_servo_range(input, 14);
+        rudder = filtered_servo_angle(input, 15);
+    }
+
     if (frame == FRAME_ELEVON) {
         // fake an elevon plane
         float ch1 = aileron;
