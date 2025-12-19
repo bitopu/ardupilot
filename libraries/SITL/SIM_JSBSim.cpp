@@ -15,7 +15,7 @@
 /*
   simulator connector for JSBSim
 */
-#define MANUAL_FLIGHT 0
+#define MANUAL_FLIGHT 1
 #include "SIM_config.h"
 
 #if AP_SIM_JSBSIM_ENABLED
@@ -372,7 +372,7 @@ void JSBSim::send_servos(const struct sitl_input &input)
 {
     char *buf = nullptr;
     float aileron  = filtered_servo_angle(input, 0);
-    float elevator = filtered_servo_angle(input, 1)
+    float elevator = filtered_servo_angle(input, 1);
     float throttle = filtered_servo_range(input, 2);
     float rudder = filtered_servo_angle(input, 3);
     if (MANUAL_FLIGHT){
@@ -408,7 +408,7 @@ void JSBSim::send_servos(const struct sitl_input &input)
              "set atmosphere/turbulence/milspec/windspeed_at_20ft_AGL-fps %f\n"
              "set atmosphere/turbulence/milspec/severity %f\n"
              "iterate 1\n",
-             aileron, elevator, rudder, throttle,
+             0.22, -0.18, 0.39, 0.615,
              radians(input.wind.direction),
              wind_speed_fps,
              wind_speed_fps/3,
