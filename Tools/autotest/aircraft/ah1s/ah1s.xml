@@ -1218,11 +1218,11 @@
 
   </aerodynamics>
   <!-- CSV logger for key state variables -->
-  <output name="aircraft/ah1s/Debug/Stick-Cmd.csv" type="CSV" file="ah1s_log.csv" rate="2">
+  <output name="/aircraft/ah1s/Log/Stick-Cmd.csv" type="CSV"  rate="2">
     <property> fcs/collective-cmd-norm </property>
     <property> fcs/elevator-cmd-norm </property>
     <property> fcs/aileron-cmd-norm </property>
-    <property> fcs/elevator-cmd-norm </property>
+    <property> fcs/rudder-cmd-norm </property>
     <property> propulsion/engine/collective-ctrl-rad </property>
     <property> propulsion/engine/longitudinal-ctrl-rad </property>
     <property> propulsion/engine/lateral-ctrl-rad </property>

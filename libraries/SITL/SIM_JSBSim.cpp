@@ -145,6 +145,12 @@ bool JSBSim::create_templates(void)
 "      <notify/>\n"
 "    </event>\n"
 "\n"
+"    <event name=\"Engage yaw afcs\">\n"
+"      <condition> simulation/sim-time-sec ge 0.02 </condition>\n"
+"      <set name=\"ap/afcs/yaw-channel-active-norm\" value=\"1.0\"/>\n"
+"      <notify/>\n"
+"    </event>\n"
+"\n"
 "  </run>\n"
 "\n"
 "</runscript>\n"
@@ -365,10 +371,10 @@ bool JSBSim::open_fdm_socket(void)
 void JSBSim::send_servos(const struct sitl_input &input)
 {
     char *buf = nullptr;
-    float aileron  = 0.0; //filtered_servo_angle(input, 0);
-    float elevator = 0.0; //filtered_servo_angle(input, 1);
-    float throttle = filtered_servo_range(input, 15);
-    float rudder   = filtered_servo_range(input, 16);
+    float aileron  = filtered_servo_angle(input, 12);
+    float elevator = filtered_servo_angle(input, 13);
+    float throttle = filtered_servo_range(input, 14);
+    float rudder   = -1 + 2*filtered_servo_range(input, 15);
     if (frame == FRAME_ELEVON) {
         // fake an elevon plane
         float ch1 = aileron;
