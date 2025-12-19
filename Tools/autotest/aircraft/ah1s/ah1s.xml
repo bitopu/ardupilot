@@ -1228,4 +1228,8 @@
     <property> propulsion/engine/lateral-ctrl-rad </property>
     <property> propulsion/engine[1]/antitorque-ctrl-rad </property>
   </output>
+  <output name="/aircraft/ah1s/Log/autoflight-log.csv" type="CSV"  rate="2">
+    <property> ap/afcs/yaw-channel-active-norm </property>
+    <property> fcs/rpm-governor-active-norm </property>
+  </output>
 </fdm_config>
