@@ -145,6 +145,20 @@ bool JSBSim::create_templates(void)
 "      <notify/>\n"
 "    </event>\n"
 "\n"
+// "    <event name=\"Engage yaw afcs\">\n"
+// "      <condition> simulation/sim-time-sec ge 0.02 </condition>\n"
+// "      <set name=\"ap/afcs/yaw-channel-active-norm\" value=\"1\"/>\n"
+// "      <notify/>\n"
+// "    </event>\n"
+// "    <event name=\"Lift off\">\n"
+// "      <condition> simulation/sim-time-sec ge 1 </condition>\n"
+// "      <set name=\"fcs/collective-cmd-norm\" value=\"0.615\" action=\"FG_RAMP\" tc=\"10.0\"/>\n"
+// "      <set name=\"fcs/elevator-cmd-norm\" value=\"-0.18\" action=\"FG_RAMP\" tc=\"20.0\"/>\n"
+// "      <set name=\"fcs/aileron-cmd-norm\" value=\"0.22\" action=\"FG_RAMP\" tc=\"20.0\"/>\n"
+// "      <set name=\"fcs/rudder-cmd-norm\" value=\"0.39\" action=\"FG_RAMP\" tc=\"3.0\"/>\n"
+// "      <notify/>\n"
+// "    </event>\n"
+"\n"
 "  </run>\n"
 "\n"
 "</runscript>\n"
@@ -362,12 +376,17 @@ bool JSBSim::open_fdm_socket(void)
 /*
   decode and send servos
 */
-
+void JSBSim::send_servos(const struct sitl_input &input)
 {
     char *buf = nullptr;
+    float GAIN_THROTTLE = 2.0;
+    // float aileron  = filtered_servo_angle(input, 12);
+    // float elevator = filtered_servo_angle(input, 13);
+    // float throttle = filtered_servo_range(input, 14);
+    // float rudder   = filtered_servo_angle(input, 15);
     float aileron  = filtered_servo_angle(input, 0);
     float elevator = filtered_servo_angle(input, 1);
-    float throttle = filtered_servo_range(input, 2);
+    float throttle = GAIN_THROTTLE*filtered_servo_range(input, 2);
     float rudder   = filtered_servo_angle(input, 3);
     if (frame == FRAME_ELEVON) {
         // fake an elevon plane
@@ -390,14 +409,14 @@ bool JSBSim::open_fdm_socket(void)
     // <set name="fcs/aileron-cmd-norm" value="0.22" action="FG_RAMP" tc="20.0"/>
     // <set name="fcs/rudder-cmd-norm" value="0.39" action="FG_RAMP" tc="3.0"/>
     asprintf(&buf,
-             //"set fcs/aileron-cmd-norm %f\n"
-             //"set fcs/elevator-cmd-norm %f\n"
-             //"set fcs/rudder-cmd-norm %f\n"
-             //"set fcs/collective-cmd-norm %f\n"
-             "<set name=\"fcs/aileron-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"10.0\"/>"
-             "<set name=\"fcs/elevator-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
-             "<set name=\"fcs/rudder-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
-             "<set name=\"fcs/collective-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"3.0\"/>"
+             "set fcs/aileron-cmd-norm %f\n"
+             "set fcs/elevator-cmd-norm %f\n"
+             "set fcs/rudder-cmd-norm %f\n"
+             "set fcs/collective-cmd-norm %f\n"
+            //  "<set name=\"fcs/aileron-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"10.0\"/>"
+            //  "<set name=\"fcs/elevator-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
+            //  "<set name=\"fcs/rudder-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
+            //  "<set name=\"fcs/collective-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\".0\"/>"
              "set atmosphere/psiw-rad %f\n"
              "set atmosphere/wind-mag-fps %f\n"
              "set atmosphere/turbulence/milspec/windspeed_at_20ft_AGL-fps %f\n"
