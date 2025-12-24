@@ -252,7 +252,7 @@
   <!-- - - - - - - - - - - - - - - - - -
           longitudinal
        - - - - - - - - - - - - - - - - - -->
-  <property value='0.125'> fcs/adj/longitudinal-gain </property>
+  <property value='0.25'> fcs/adj/longitudinal-gain </property>
   <property value='0.020'> fcs/adj/longitudinal-bias </property>
 
   <channel name="longitudinal">
@@ -380,7 +380,7 @@
   <!-- - - - - - - - - - - - - - - - - -
           pedal/antitorque
        - - - - - - - - - - - - - - - - - -->
-  <property value='0.18'> fcs/adj/pedal-gain </property>
+  <property value='0.3'> fcs/adj/pedal-gain </property>
   <property value='0.00'> fcs/adj/pedal-bias </property>
 
   <property value='1.00'> fcs/adj/pedal-col-mix-infl </property>

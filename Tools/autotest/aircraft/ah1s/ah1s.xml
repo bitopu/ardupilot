@@ -1218,7 +1218,7 @@
 
   </aerodynamics>
   <!-- CSV logger for key state variables -->
-  <output name="/aircraft/ah1s/Log/Stick-Cmd.csv" type="CSV"  rate="5">
+  <output name="/aircraft/ah1s/Log/Stick-Cmd.csv" type="CSV"  rate="2">
     <property> fcs/collective-cmd-norm </property>
     <property> fcs/elevator-cmd-norm </property>
     <property> fcs/aileron-cmd-norm </property>
@@ -1226,28 +1226,33 @@
     <property> attitude/phi-rad </property>
     <property> attitude/theta-rad </property>
     <property> attitude/psi-rad </property>
+    <position> ON </position>
+    <rates>    ON </rates>
+
   </output>
-  <output name="/aircraft/ah1s/Log/Elevator-control.csv" type="CSV"  rate="5">
+  <output name="/aircraft/ah1s/Log/Elevator-control.csv" type="CSV"  rate="2">
     <property> fcs/elevator-cmd-norm </property>
     <property> propulsion/engine/longitudinal-ctrl-rad </property>
     <property> attitude/theta-rad </property>
+    <property> ic/q-rad_sec  </property>
     <property> fcs/elevator-cmd-norm-exmod </property>
     <property> fcs/longitudinal-cmd-trim-sum </property>
     <property> fcs/longitudinal-gain </property>
     <property> fcs/longitudinal-ctrl-rad </property>
     <property> fcs/longitudinal-ctrl-rad-lag </property>
   </output>
-  <output name="/aircraft/ah1s/Log/Aileron-control.csv" type="CSV"  rate="5">
+  <output name="/aircraft/ah1s/Log/Aileron-control.csv" type="CSV"  rate="2">
     <property> fcs/aileron-cmd-norm </property>
     <property> propulsion/engine/lateral-ctrl-rad </property>
     <property> attitude/phi-rad </property>
+    <property> ic/p-rad_sec  </property>
     <property> fcs/aileron-cmd-norm-exmod </property>
     <property> fcs/lateral-cmd-trim-sum </property>
     <property> fcs/lateral-gain </property>
     <property> fcs/lateral-ctrl-rad </property>
     <property> fcs/lateral-ctrl-rad-lag </property>
   </output>
-  <output name="/aircraft/ah1s/Log/throttle.csv" type="CSV"  rate="5">
+  <output name="/aircraft/ah1s/Log/throttle.csv" type="CSV"  rate="2">
     <property> fcs/collective-cmd-norm </property>
     <property> fcs/collective-cmd-norm-variant </property>
     <property> fcs/collective-cmd-trim-sum </property>
@@ -1256,10 +1261,11 @@
     <property> fcs/collective-ctrl-rad-lag </property>
     <property> propulsion/engine/collective-ctrl-rad </property>
   </output>
-  <output name="/aircraft/ah1s/Log/Rudder-control.csv" type="CSV"  rate="5">
+  <output name="/aircraft/ah1s/Log/Rudder-control.csv" type="CSV"  rate="2">
     <property> fcs/rudder-cmd-norm </property>
     <property> propulsion/engine[1]/antitorque-ctrl-rad </property>
     <property> attitude/psi-rad </property>
+    <property> ic/r-rad_sec  </property>
     <property> fcs/rudder-cmd-norm-exmod </property>
     <property> fcs/pedal-cmd-trim-sum </property>
     <property> fcs/pedal-gain </property>
