@@ -380,17 +380,21 @@ void JSBSim::send_servos(const struct sitl_input &input)
 {
     char *buf = nullptr;
     // float aileron  = filtered_servo_angle(input, 12);
+    // //điều khiển cần lái nghiêng trái/phải lấy từ servo 13 nhân thông tin từ kênh 1
     // float elevator = filtered_servo_angle(input, 13);
+    // //điều khiển cần lái ngóc/chúi lấy từ servo 14 nhân thông tin từ kênh 2
     // float throttle = filtered_servo_range(input, 14);
+    // //điều khiển cần ga lấy từ servo 15 nhân thông tin từ kênh 3
     // float rudder   = filtered_servo_angle(input, 15);
+    // //điều khiển bàn đạp lấy từ servo 16 nhân thông tin từ kênh 4
     float aileron  = filtered_servo_angle(input, 0);
+    //aileron chuyển yêu cầu đến góc nghiêng trái/phải của đĩa nghiêng chính qua biến đầu vào JSBSim: fcs/aileron-cmd-norm
     float elevator = filtered_servo_angle(input, 1);
-    float throttle = filtered_servo_range(input, 2)/0.5*0.75;
+    //elevator chuyển yêu cầu đến góc nghiêng ngóc/chúi của đĩa nghiêng chính qua biến đầu vào JSBSim: fcs/elevator-cmd-norm
+    float throttle = filtered_servo_range(input, 2);
+    //throttle chuyển yêu cầu đến độ nâng/hạ của đĩa nghiêng chính qua biến đầu vào JSBSim: fcs/collective-cmd-norm
     float rudder   = filtered_servo_angle(input, 3);
-    // float aileron  = input.servos[0];
-    // float elevator = input.servos[1];
-    // float throttle = input.servos[2];
-    // float rudder   = input.servos[3];
+    //rudder chuyển yêu cầu đến độ nâng hạ đĩa nghiêng đuôi qua biến đầu vào JSBSim: fcs/rudder-cmd-norm
     if (frame == FRAME_ELEVON) {
         // fake an elevon plane
         float ch1 = aileron;
@@ -407,19 +411,15 @@ void JSBSim::send_servos(const struct sitl_input &input)
         rudder   = (ch2+ch1)/2.0f;
     }
     float wind_speed_fps = input.wind.speed / FEET_TO_METERS;
-    // <set name=\"fcs/collective-cmd-norm\" value=\"%f\" action="FG_RAMP" tc=\"10.0\"/>
-    // <set name="fcs/elevator-cmd-norm" value="-0.18" action="FG_RAMP" tc="20.0"/>
-    // <set name="fcs/aileron-cmd-norm" value="0.22" action="FG_RAMP" tc="20.0"/>
-    // <set name="fcs/rudder-cmd-norm" value="0.39" action="FG_RAMP" tc="3.0"/>
     asprintf(&buf,
              "set fcs/aileron-cmd-norm %f\n"
+             //điều khiển nghiêng trái/phải
              "set fcs/elevator-cmd-norm %f\n"
+             //điều khiển ngóc/chúi
              "set fcs/rudder-cmd-norm %f\n"
+             //điều khiển định hướng xoay
              "set fcs/collective-cmd-norm %f\n"
-            //  "<set name=\"fcs/aileron-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"10.0\"/>"
-            //  "<set name=\"fcs/elevator-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
-            //  "<set name=\"fcs/rudder-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\"20.0\"/>"
-            //  "<set name=\"fcs/collective-cmd-norm\" value=\"%f\" action=\"FG_RAMP\" tc=\".0\"/>"
+             //điều khiển lực đẩy
              "set atmosphere/psiw-rad %f\n"
              "set atmosphere/wind-mag-fps %f\n"
              "set atmosphere/turbulence/milspec/windspeed_at_20ft_AGL-fps %f\n"
